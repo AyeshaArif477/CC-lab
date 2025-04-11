@@ -4,29 +4,27 @@ class Program
 {
     static void Main()
     {
-        // Take input from user
-        Console.Write("Enter value for x: ");
-        string userX = Console.ReadLine();
+        // x and y are fixed values
+        string userX = "3";
+        string userY = "0";
 
-        Console.Write("Enter value for y: ");
-        string userY = Console.ReadLine();
-
-        // Fixed value for z
-        string userZ = "4";
+        // Take z from user input
+        Console.Write("Enter value for z: ");
+        string userZ = Console.ReadLine();
 
         // Build the input string
         string input = $"x:{userX}; y:{userY}; z:{userZ}; result: x * y + z;";
 
-        // Extract values from string
-        int x30 = ExtractValue(input, "x"); 
+        // Extract values using the helper method
+        int x = ExtractValue(input, "x");
         int y = ExtractValue(input, "y");
         int z = ExtractValue(input, "z");
 
-        // Perform calculation: x * y + z
-        int result = x30 * y + z;
+        // Calculate result
+        int result = x * y + z;
 
         // Display results
-        Console.WriteLine($"\nx = {x30}");
+        Console.WriteLine($"\nx = {x}");
         Console.WriteLine($"y = {y}");
         Console.WriteLine($"z = {z}");
         Console.WriteLine($"Result = {result}");
