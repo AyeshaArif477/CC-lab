@@ -18,7 +18,7 @@ class Program
         string input = $"x:{userX}; y:{userY}; z:{userZ}; result: x * y + z;";
 
         // Extract values from string
-        int x30 = ExtractValue(input, "x");
+        int x30 = ExtractValue(input, "x"); 
         int y = ExtractValue(input, "y");
         int z = ExtractValue(input, "z");
 
