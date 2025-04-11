@@ -18,15 +18,15 @@ class Program
         string input = $"x:{userX}; y:{userY}; z:{userZ}; result: x * y + z;";
 
         // Extract values from string
-        int x23 = ExtractValue(input, "x");
+        int x30 = ExtractValue(input, "x");
         int y = ExtractValue(input, "y");
         int z = ExtractValue(input, "z");
 
         // Perform calculation: x * y + z
-        int result = x23 * y + z;
+        int result = x30 * y + z;
 
         // Display results
-        Console.WriteLine($"\nx = {x23}");
+        Console.WriteLine($"\nx = {x30}");
         Console.WriteLine($"y = {y}");
         Console.WriteLine($"z = {z}");
         Console.WriteLine($"Result = {result}");
