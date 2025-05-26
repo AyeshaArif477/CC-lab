@@ -1,0 +1,126 @@
+using System;
+using System.Collections.Generic;
+
+namespace FirstFollowSet
+{
+    class Program
+    {
+        static int limit, x = 0;
+        static char[,] production = new char[10, 10];
+        static char[] array = new char[20];
+
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    production[i, j] = '-';
+
+            Console.Write("\nEnter Total Number of Productions: ");
+            limit = Convert.ToInt32(Console.ReadLine());
+
+            for (int count = 0; count < limit; count++)
+            {
+                Console.Write("Enter Production Number {0}: ", count + 1);
+                string temp = Console.ReadLine();
+
+                for (int i = 0; i < temp.Length; i++)
+                    production[count, i] = temp[i];
+            }
+
+            char option, ch;
+            do
+            {
+                x = 0;
+                Console.Write("\nEnter Non-Terminal to Find FOLLOW: ");
+                ch = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+
+                find_follow(ch);
+
+                Console.Write("FOLLOW({0}) = {{ ", ch);
+                for (int count = 0; count < x; count++)
+                    Console.Write(array[count] + " ");
+                Console.WriteLine("}");
+
+                Console.Write("To Continue, Press Y: ");
+                option = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+
+            } while (option == 'y' || option == 'Y');
+
+            Console.WriteLine("\nProductions Entered:");
+            for (int i = 0; i < limit; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                    Console.Write(production[i, j]);
+                Console.WriteLine();
+            }
+
+            Console.ReadKey();
+        }
+
+        static void find_follow(char ch)
+        {
+            if (production[0, 0] == ch)
+                array_manipulation('$'); // Add end marker for start symbol
+
+            for (int i = 0; i < limit; i++)
+            {
+                for (int j = 2; production[i, j] != '-' && j < 10; j++)
+                {
+                    if (production[i, j] == ch)
+                    {
+                        if (production[i, j + 1] != '-' && production[i, j + 1] != '\0')
+                        {
+                            find_first(production[i, j + 1]);
+                        }
+                        if (production[i, j + 1] == '-' || production[i, j + 1] == '\0')
+                        {
+                            if (production[i, 0] != ch)
+                                find_follow(production[i, 0]);
+                        }
+                    }
+                }
+            }
+        }
+
+        static void find_first(char ch)
+        {
+            int val = Convert.ToInt32(ch);
+            if (!(val >= 65 && val <= 90)) // Terminal (not A-Z)
+            {
+                array_manipulation(ch);
+                return;
+            }
+
+            for (int k = 0; k < limit; k++)
+            {
+                if (production[k, 0] == ch)
+                {
+                    if (production[k, 2] == '$') // epsilon production
+                    {
+                        find_follow(production[k, 0]);
+                    }
+                    else if (Convert.ToInt32(production[k, 2]) >= 97 && Convert.ToInt32(production[k, 2]) <= 122) // terminal a-z
+                    {
+                        array_manipulation(production[k, 2]);
+                    }
+                    else
+                    {
+                        find_first(production[k, 2]);
+                    }
+                }
+            }
+        }
+
+        static void array_manipulation(char ch)
+        {
+            for (int count = 0; count < x; count++)
+            {
+                if (array[count] == ch)
+                    return;
+            }
+            array[x++] = ch;
+        }
+    }
+}
